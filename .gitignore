@@ -1,0 +1,14 @@
+# Archivos sensibles
+.env
+docker-compose.yml
+
+# Cosas generadas por Zig
+zig-cache/
+zig-out/
+
+# Archivos de bases de datos (por si haces dump locales)
+*.db
+*.sqlite
+
+# Archivos de entorno o temporales
+*.log
