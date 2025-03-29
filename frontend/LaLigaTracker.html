@@ -127,6 +127,9 @@
         <button type="button" onclick="registerRedCard()">Registrar Tarjeta Roja</button>
         <button type="button" onclick="setExtraTime()">Establecer Tiempo Extra</button>
       </div>
+      <label>Tiempo Extra (en minutos):
+        <input type="text" id="extraTimeInput">
+      </label>
     </form>
   </section>
 
@@ -206,14 +209,24 @@
     // Función para mostrar los detalles de un partido
     function displayMatchDetails(match) {
       const detailsDiv = document.getElementById('matchDetails');
+    
+      if (!match || Object.keys(match).length === 0) {
+        detailsDiv.innerHTML = '<p>Partido no encontrado.</p>';
+        return;
+      }
+    
       detailsDiv.innerHTML = `
         <h3>Detalles del Partido</h3>
         <p><strong>ID:</strong> ${match.id}</p>
         <p><strong>Equipo Local:</strong> ${match.homeTeam}</p>
         <p><strong>Equipo Visitante:</strong> ${match.awayTeam}</p>
         <p><strong>Fecha:</strong> ${match.matchDate}</p>
+        <p><strong>Goles:</strong> ${match.goals ?? 0}</p>
+        <p><strong>Tarjetas Amarillas:</strong> ${match.yellowCards ?? 0}</p>
+        <p><strong>Tarjetas Rojas:</strong> ${match.redCards ?? 0}</p>
+        <p><strong>Tiempo Extra:</strong> ${match.extraTime ?? 'N/A'}</p>
       `;
-    }
+    }         
 
     // Función para preparar la actualización de un partido (rellena el formulario de actualización)
     function prepareUpdate(id, homeTeam, awayTeam, matchDate) {
@@ -258,76 +271,79 @@
           method: 'DELETE'
         });
         if (!response.ok) throw new Error('Error al eliminar el partido');
+        
+        // Limpia los detalles del partido y recarga lista
+        document.getElementById('matchDetails').innerHTML = '';
         fetchMatches();
       } catch (error) {
         alert(error);
       }
-    }
+    }    
 
     // Funciones para endpoints PATCH (operaciones adicionales)
     // Se utiliza el campo "patchMatchId" para determinar el partido al que se aplicará la operación
     function getPatchMatchId() {
       return document.getElementById('patchMatchId').value;
     }
-
+  
     async function registerGoal() {
       const id = getPatchMatchId();
       try {
         const response = await fetch(`${apiBaseUrl}/matches/${id}/goals`, {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ /* Puedes enviar datos adicionales si es necesario */ })
+          headers: { 'Content-Type': 'application/json' }
         });
         if (!response.ok) throw new Error('Error al registrar gol');
-        alert('Gol registrado correctamente');
+        alert('✅ Gol registrado correctamente');
         fetchMatches();
       } catch (error) {
         alert(error);
       }
     }
-
+  
     async function registerYellowCard() {
       const id = getPatchMatchId();
       try {
         const response = await fetch(`${apiBaseUrl}/matches/${id}/yellowcards`, {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ /* Puedes enviar datos adicionales si es necesario */ })
+          headers: { 'Content-Type': 'application/json' }
         });
         if (!response.ok) throw new Error('Error al registrar tarjeta amarilla');
-        alert('Tarjeta amarilla registrada correctamente');
+        alert('✅ Tarjeta amarilla registrada');
         fetchMatches();
       } catch (error) {
         alert(error);
       }
     }
-
+  
     async function registerRedCard() {
       const id = getPatchMatchId();
       try {
         const response = await fetch(`${apiBaseUrl}/matches/${id}/redcards`, {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ /* Puedes enviar datos adicionales si es necesario */ })
+          headers: { 'Content-Type': 'application/json' }
         });
         if (!response.ok) throw new Error('Error al registrar tarjeta roja');
-        alert('Tarjeta roja registrada correctamente');
+        alert('✅ Tarjeta roja registrada');
         fetchMatches();
       } catch (error) {
         alert(error);
       }
     }
-
+  
     async function setExtraTime() {
       const id = getPatchMatchId();
+      const extraTime = document.getElementById('extraTimeInput').value;
+      if (!extraTime) return alert("⏱️ Ingresa un tiempo extra válido");
+  
       try {
         const response = await fetch(`${apiBaseUrl}/matches/${id}/extratime`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ /* Puedes enviar datos adicionales si es necesario */ })
+          body: JSON.stringify({ extraTime })
         });
         if (!response.ok) throw new Error('Error al establecer tiempo extra');
-        alert('Tiempo extra establecido correctamente');
+        alert('⏱️ Tiempo extra registrado correctamente');
         fetchMatches();
       } catch (error) {
         alert(error);
