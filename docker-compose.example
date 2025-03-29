@@ -17,7 +17,7 @@ services:
     build: ./backend
     container_name: liga_backend
     ports:
-      - "8090:8090"
+      - "8080:8080"
     depends_on:
       - db
       

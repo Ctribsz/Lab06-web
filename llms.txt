@@ -1,0 +1,92 @@
+LLMS.TXT - Documentación de la API REST de La Liga Tracker
+
+--------------------------------------
+
+BASE URL:
+http://localhost:8080/api
+
+--------------------------------------
+
+ENDPOINTS DISPONIBLES
+
+1. Obtener todos los partidos
+[GET] /matches
+- Respuesta: lista de objetos JSON con todos los partidos registrados.
+
+2. Crear un nuevo partido
+[POST] /matches
+- Body JSON:
+{
+  "homeTeam": "Equipo A",
+  "awayTeam": "Equipo B",
+  "matchDate": "2024-03-28"
+}
+- Respuesta: objeto del partido creado con su ID.
+
+3. Buscar un partido por ID
+[GET] /matches/{id}
+- Reemplazar {id} por un número entero.
+
+4. Actualizar un partido
+[PUT] /matches/{id}
+- Body JSON:
+{
+  "homeTeam": "Nuevo A",
+  "awayTeam": "Nuevo B",
+  "matchDate": "2024-04-01"
+}
+- Respuesta: 204 No Content
+
+5. Eliminar un partido
+[DELETE] /matches/{id}
+- Respuesta: 204 No Content
+
+6. Registrar gol en un partido
+[PATCH] /matches/{id}/goals
+- Incrementa el contador de goles
+
+7. Registrar tarjeta amarilla
+[PATCH] /matches/{id}/yellowcards
+- Incrementa el contador de tarjetas amarillas
+
+8. Registrar tarjeta roja
+[PATCH] /matches/{id}/redcards
+- Incrementa el contador de tarjetas rojas
+
+9. Establecer tiempo extra
+[PATCH] /matches/{id}/extratime
+- Body JSON:
+{
+  "extraTime": "5 mins"
+}
+
+--------------------------------------
+
+Formato JSON de un partido:
+{
+  "id": 1,
+  "homeTeam": "Equipo A",
+  "awayTeam": "Equipo B",
+  "matchDate": "2024-03-28",
+  "goals": 2,
+  "yellowCards": 1,
+  "redCards": 0,
+  "extraTime": "3 mins"
+}
+
+--------------------------------------
+
+Errores comunes:
+- 400: ID inválido o JSON malformado
+- 404: Partido no encontrado
+- 500: Error interno del servidor o de base de datos
+
+--------------------------------------
+
+Notas:
+- Todos los campos son sensibles a mayúsculas/minúsculas
+- Los campos extraTime, goals, yellowCards y redCards se actualizan por separado usando PATCH
+
+--------------------------------------
+
+Hecho con ❤ por Chris

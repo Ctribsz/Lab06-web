@@ -80,8 +80,8 @@ func main() {
 		}
 	}))
 
-	fmt.Println("✅ Backend corriendo en :8090")
-	log.Fatal(http.ListenAndServe(":8090", nil))
+	fmt.Println("✅ Backend corriendo en :8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func corsMiddleware(next http.HandlerFunc) http.HandlerFunc {
