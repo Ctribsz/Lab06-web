@@ -42,7 +42,7 @@ Ya se proporcionan los archivos `.env.example` y `docker-compose.example.yml`.
 
 ## 📬 Documentación de Postman
 
-👉 [Ver colección de Postman](https://www.postman.com/restless-crescent-464318/my-workspace/collection/kws0hu9/api-partidos?action=share&source=copy-link&creator=40770150)
+👉 [Ver colección de Postman](https://documenter.getpostman.com/view/40770150/2sB2cPjQbq)
 
 ---
 
